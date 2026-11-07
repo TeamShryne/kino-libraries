@@ -4,6 +4,8 @@
 import hashlib
 import json
 import os
+import subprocess
+import tempfile
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -16,7 +18,9 @@ DIST.mkdir(exist_ok=True)
 CORE_TAG = os.environ["CORE_TAG"]
 IRONPRESS_TAG = os.environ["IRONPRESS_TAG"]
 REPOSITORY = os.environ["CATALOG_REPOSITORY"]
-RELEASE_TAG = f"runtime-{CORE_TAG}-{IRONPRESS_TAG}"
+RUN_ID = os.environ["RUN_ID"]
+CORE_PACKAGE_VERSION = f"{CORE_TAG}-dex1"
+RELEASE_TAG = f"runtime-{CORE_TAG}-{IRONPRESS_TAG}-r{RUN_ID}"
 
 
 def entry(zip_file: zipfile.ZipFile, path: str) -> zipfile.ZipInfo:
@@ -44,11 +48,28 @@ def digest(path: Path) -> str:
 
 def package_core(aar: Path, abi: str) -> Path:
     destination = DIST / f"kino-core-{abi}.zip"
-    with zipfile.ZipFile(aar) as source, zipfile.ZipFile(destination, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as output:
-        output.writestr("classes.jar", source.read(entry(source, "classes.jar")))
-        native_name = find_native(source, abi, "libgojni.so")
-        output.writestr("libgojni.so", source.read(entry(source, native_name)))
-        output.writestr("library.json", json.dumps({"id": "kino-core", "version": CORE_TAG, "abi": abi}, separators=(",", ":")))
+    with tempfile.TemporaryDirectory() as temporary:
+        temporary_path = Path(temporary)
+        class_jar = temporary_path / "source-classes.jar"
+        with zipfile.ZipFile(aar) as source:
+            class_jar.write_bytes(source.read(entry(source, "classes.jar")))
+            native_name = find_native(source, abi, "libgojni.so")
+            native_bytes = source.read(entry(source, native_name))
+        dex_dir = temporary_path / "dex"
+        dex_dir.mkdir()
+        subprocess.run([os.environ["D8_PATH"], "--min-api", "26", "--output", str(dex_dir), str(class_jar)], check=True)
+        dex_files = sorted(dex_dir.glob("classes*.dex"))
+        if not dex_files or dex_files[0].name != "classes.dex":
+            raise RuntimeError("D8 did not produce classes.dex for Kino Core")
+        # DexClassLoader accepts jars containing DEX entries; a raw JVM classes.jar is not executable on Android.
+        dex_jar = temporary_path / "classes.jar"
+        with zipfile.ZipFile(dex_jar, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as jar:
+            for dex_file in dex_files:
+                jar.write(dex_file, dex_file.name)
+        with zipfile.ZipFile(destination, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as output:
+            output.write(dex_jar, "classes.jar")
+            output.writestr("libgojni.so", native_bytes)
+            output.writestr("library.json", json.dumps({"id": "kino-core", "version": CORE_PACKAGE_VERSION, "source_version": CORE_TAG, "abi": abi}, separators=(",", ":")))
     return destination
 
 
@@ -78,16 +99,17 @@ ironpress_artifacts = [artifact(package_ironpress(ironpress_aar, abi), abi) for 
 
 catalog = {
     "schema_version": 1,
-    "catalog_version": int(os.environ["RUN_ID"]),
+    "catalog_version": int(RUN_ID),
     "generated_at": datetime.now(timezone.utc).isoformat(),
     "libraries": [
         {
             "id": "kino-core",
             "name": "Kino Core",
-            "version": CORE_TAG,
+            "version": CORE_PACKAGE_VERSION,
+            "source_version": CORE_TAG,
             "description": "DeepSeek account, chat, search, history, and file support.",
             "required_for": ["chat"],
-            "format": "gomobile-runtime-zip-v1",
+            "format": "gomobile-dex-runtime-zip-v1",
             "classes_file": "classes.jar",
             "native_library": "libgojni.so",
             "license": "MIT",

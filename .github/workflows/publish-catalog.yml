@@ -23,6 +23,20 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - name: Locate Android D8
+        shell: bash
+        run: |
+          SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          D8_PATH="$(find "$SDK/build-tools" -maxdepth 2 -type f -name d8 -print 2>/dev/null | sort -V | tail -n 1)"
+          if [[ -z "$D8_PATH" ]]; then
+            SDKMANAGER="$SDK/cmdline-tools/latest/bin/sdkmanager"
+            if [[ ! -x "$SDKMANAGER" ]]; then SDKMANAGER="$(command -v sdkmanager)"; fi
+            yes | "$SDKMANAGER" --licenses >/dev/null 2>&1 || true
+            "$SDKMANAGER" "build-tools;35.0.0"
+            D8_PATH="$SDK/build-tools/35.0.0/d8"
+          fi
+          test -x "$D8_PATH"
+          echo "D8_PATH=$D8_PATH" >> "$GITHUB_ENV"
       - name: Download upstream AARs
         env:
           GH_TOKEN: ${{ github.token }}
@@ -48,7 +62,7 @@ jobs:
           IRONPRESS_TAG: ${{ inputs.ironpress_tag }}
           RUN_ID: ${{ github.run_number }}
         run: |
-          RELEASE_TAG="runtime-${CORE_TAG}-${IRONPRESS_TAG}"
+          RELEASE_TAG="runtime-${CORE_TAG}-${IRONPRESS_TAG}-r${RUN_ID}"
           gh release create "$RELEASE_TAG" dist/* --repo "$GITHUB_REPOSITORY" --title "Kino runtime libraries $CORE_TAG / $IRONPRESS_TAG" --generate-notes
       - name: Update catalog
         env:
