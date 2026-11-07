@@ -1,17 +1,18 @@
 {
   "schema_version": 1,
-  "catalog_version": 1,
-  "generated_at": "2026-11-07T16:37:40.607660+00:00",
+  "catalog_version": 2,
+  "generated_at": "2026-11-07T17:00:13.603230+00:00",
   "libraries": [
     {
       "id": "kino-core",
       "name": "Kino Core",
-      "version": "v0.1.5",
+      "version": "v0.1.5-dex1",
+      "source_version": "v0.1.5",
       "description": "DeepSeek account, chat, search, history, and file support.",
       "required_for": [
         "chat"
       ],
-      "format": "gomobile-runtime-zip-v1",
+      "format": "gomobile-dex-runtime-zip-v1",
       "classes_file": "classes.jar",
       "native_library": "libgojni.so",
       "license": "MIT",
@@ -20,30 +21,30 @@
         {
           "abi": "arm64-v8a",
           "file_name": "kino-core-arm64-v8a.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1/kino-core-arm64-v8a.zip",
-          "sha256": "c91bec778cd0b14343c892faf59fee990c56358fa119fad3573b3cbb59bf6c2f",
-          "size_bytes": 4796796
+          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1-r2/kino-core-arm64-v8a.zip",
+          "sha256": "368139fc4774b7d984402257fa05abaefbd5395d7e96338cb479c4b4fa281056",
+          "size_bytes": 4792105
         },
         {
           "abi": "armeabi-v7a",
           "file_name": "kino-core-armeabi-v7a.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1/kino-core-armeabi-v7a.zip",
-          "sha256": "82dd18d91cdcd25d2a64420f8729f2915a70cd5656de5fb2bf2363362abb7df7",
-          "size_bytes": 4774303
+          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1-r2/kino-core-armeabi-v7a.zip",
+          "sha256": "5366d4b8c7654909670129b940bfbfa50606f6783da3aa7f7161631085156d18",
+          "size_bytes": 4769612
         },
         {
           "abi": "x86",
           "file_name": "kino-core-x86.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1/kino-core-x86.zip",
-          "sha256": "3ae8a5ad301415f37a9e47cd33c1d4f5cd1c1c5e07de6d5f760d3fa9ea21e038",
-          "size_bytes": 5127538
+          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1-r2/kino-core-x86.zip",
+          "sha256": "39fb3cdf61e8fb8af99fe9feed8fdb61b9e545882f7dfe9ac3019cc135a8a7c4",
+          "size_bytes": 5122847
         },
         {
           "abi": "x86_64",
           "file_name": "kino-core-x86_64.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1/kino-core-x86_64.zip",
-          "sha256": "ec324cb463b80107b5c97c1022478f33a1285a9577877f44bf92efb18f1a6f28",
-          "size_bytes": 5202726
+          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1-r2/kino-core-x86_64.zip",
+          "sha256": "05e83357b087ee1852eef65154f0fe39c5f2d8b8eff9a60149fd9045e61a807d",
+          "size_bytes": 5198035
         }
       ]
     },
@@ -63,29 +64,29 @@
         {
           "abi": "arm64-v8a",
           "file_name": "ironpress-arm64-v8a.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1/ironpress-arm64-v8a.zip",
-          "sha256": "a4a04e4eab26378afbf4654a785c07ad7c912866287a4347f528a7bc88703388",
+          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1-r2/ironpress-arm64-v8a.zip",
+          "sha256": "a410f33828d991f8350e01a956571cece8219ec8e718417b767479fb7f6829ba",
           "size_bytes": 9235806
         },
         {
           "abi": "armeabi-v7a",
           "file_name": "ironpress-armeabi-v7a.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1/ironpress-armeabi-v7a.zip",
-          "sha256": "6e619f20c8fab73e48af46aef94cd6a718c3e4ea7ee2bcd4673fa97067870442",
+          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1-r2/ironpress-armeabi-v7a.zip",
+          "sha256": "b62a023dcd83b67b54d6b1edf57559e86551adf09a9a7305a1844e7a08357eae",
           "size_bytes": 8579600
         },
         {
           "abi": "x86",
           "file_name": "ironpress-x86.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1/ironpress-x86.zip",
-          "sha256": "82d62115e1958f8a4d8a43471ae58d45b00eb5adecc75ac1b9d84f066d9ca9d3",
+          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1-r2/ironpress-x86.zip",
+          "sha256": "f7e861584291367e9389ed835f238b0b997d707d714161cc3a19f2d4d3e3449e",
           "size_bytes": 10357549
         },
         {
           "abi": "x86_64",
           "file_name": "ironpress-x86_64.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1/ironpress-x86_64.zip",
-          "sha256": "cbecaaa8dee6d9e6621062a6b23900f76a4efe14190e0c8ea80e05c04709ade3",
+          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.5-android-v1.7.0.1-r2/ironpress-x86_64.zip",
+          "sha256": "8d93634bee412e4f7ef348ee3ed1426516ed16d5cc31a32f3330f2d167aa4ad2",
           "size_bytes": 9750613
         }
       ]
