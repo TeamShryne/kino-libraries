@@ -1,0 +1,61 @@
+name: Publish runtime library catalog
+
+on:
+  workflow_dispatch:
+    inputs:
+      kino_core_tag:
+        description: Kino Core release tag
+        required: true
+        default: v0.1.5
+        type: string
+      ironpress_tag:
+        description: IronPress Android release tag
+        required: true
+        default: android-v1.7.0.1
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download upstream AARs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CORE_TAG: ${{ inputs.kino_core_tag }}
+          IRONPRESS_TAG: ${{ inputs.ironpress_tag }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/upstream" dist
+          gh release download "$CORE_TAG" --repo TeamShryne/kino-core --pattern 'kino-core.aar*' --dir "$RUNNER_TEMP/upstream/core"
+          gh release download "$IRONPRESS_TAG" --repo TeamShryne/ironpress-android --pattern 'ironpress-android.aar*' --dir "$RUNNER_TEMP/upstream/ironpress"
+          (cd "$RUNNER_TEMP/upstream/core" && sha256sum --check kino-core.aar.sha256)
+          (cd "$RUNNER_TEMP/upstream/ironpress" && sha256sum --check ironpress-android.aar.sha256)
+      - name: Build ABI-specific runtime packages
+        env:
+          CORE_TAG: ${{ inputs.kino_core_tag }}
+          IRONPRESS_TAG: ${{ inputs.ironpress_tag }}
+          CATALOG_REPOSITORY: ${{ github.repository }}
+          RUN_ID: ${{ github.run_number }}
+        run: python3 scripts/package_libraries.py
+      - name: Publish runtime artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CORE_TAG: ${{ inputs.kino_core_tag }}
+          IRONPRESS_TAG: ${{ inputs.ironpress_tag }}
+          RUN_ID: ${{ github.run_number }}
+        run: |
+          RELEASE_TAG="runtime-${CORE_TAG}-${IRONPRESS_TAG}"
+          gh release create "$RELEASE_TAG" dist/* --repo "$GITHUB_REPOSITORY" --title "Kino runtime libraries $CORE_TAG / $IRONPRESS_TAG" --generate-notes
+      - name: Update catalog
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add libraries.json
+          git commit -m "Publish runtime library catalog ${{ github.run_number }}"
+          git push origin HEAD:main
