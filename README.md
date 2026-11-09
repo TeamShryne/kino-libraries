@@ -4,4 +4,4 @@ This repository hosts the public runtime library catalog used by Kino. `librarie
 
 Packages are attached to GitHub Releases and are not committed to this repository. Run **Publish runtime library catalog** from Actions to fetch checksum-pinned upstream releases, package their Android ABI payloads, publish a runtime release, and update `libraries.json`.
 
-Initial catalog entries are Kino Core (chat and provider features) and IronPress PDF renderer (HTML-to-PDF). Keep release publishing manual so library updates are deliberate and reviewable.
+Catalog entries are Kino Core (chat and provider features). HTML-to-PDF no longer needs a downloadable library: the app renders PDFs with Android System WebView and presents the result as a shareable PDF. Keep release publishing manual so library updates are deliberate and reviewable.

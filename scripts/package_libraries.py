@@ -16,11 +16,10 @@ UPSTREAM = Path(os.environ["RUNNER_TEMP"]) / "upstream"
 DIST = ROOT / "dist"
 DIST.mkdir(exist_ok=True)
 CORE_TAG = os.environ["CORE_TAG"]
-IRONPRESS_TAG = os.environ["IRONPRESS_TAG"]
 REPOSITORY = os.environ["CATALOG_REPOSITORY"]
 RUN_ID = os.environ["RUN_ID"]
 CORE_PACKAGE_VERSION = f"{CORE_TAG}-dex1"
-RELEASE_TAG = f"runtime-{CORE_TAG}-{IRONPRESS_TAG}-r{RUN_ID}"
+RELEASE_TAG = f"runtime-{CORE_TAG}-r{RUN_ID}"
 
 
 def entry(zip_file: zipfile.ZipFile, path: str) -> zipfile.ZipInfo:
@@ -73,15 +72,6 @@ def package_core(aar: Path, abi: str) -> Path:
     return destination
 
 
-def package_ironpress(aar: Path, abi: str) -> Path:
-    destination = DIST / f"ironpress-{abi}.zip"
-    with zipfile.ZipFile(aar) as source, zipfile.ZipFile(destination, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as output:
-        native_name = find_native(source, abi, "libironpress_android.so")
-        output.writestr("libironpress_android.so", source.read(entry(source, native_name)))
-        output.writestr("library.json", json.dumps({"id": "ironpress-pdf", "version": IRONPRESS_TAG, "abi": abi}, separators=(",", ":")))
-    return destination
-
-
 def artifact(path: Path, abi: str) -> dict:
     return {
         "abi": abi,
@@ -93,9 +83,7 @@ def artifact(path: Path, abi: str) -> dict:
 
 
 core_aar = UPSTREAM / "core" / "kino-core.aar"
-ironpress_aar = UPSTREAM / "ironpress" / "ironpress-android.aar"
 core_artifacts = [artifact(package_core(core_aar, abi), abi) for abi in ABIS]
-ironpress_artifacts = [artifact(package_ironpress(ironpress_aar, abi), abi) for abi in ABIS]
 
 catalog = {
     "schema_version": 1,
@@ -115,18 +103,6 @@ catalog = {
             "license": "MIT",
             "min_android_api": 26,
             "artifacts": core_artifacts,
-        },
-        {
-            "id": "ironpress-pdf",
-            "name": "IronPress PDF renderer",
-            "version": IRONPRESS_TAG,
-            "description": "Native paged HTML-to-PDF renderer.",
-            "required_for": ["html_to_pdf"],
-            "format": "jni-runtime-zip-v1",
-            "native_library": "libironpress_android.so",
-            "license": "MIT",
-            "min_android_api": 26,
-            "artifacts": ironpress_artifacts,
         },
     ],
 }

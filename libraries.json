@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "catalog_version": 8,
-  "generated_at": "2026-11-09T13:41:46.063682+00:00",
+  "catalog_version": 9,
+  "generated_at": "2026-11-09T16:39:20.043164+00:00",
   "libraries": [
     {
       "id": "kino-core",
@@ -45,49 +45,6 @@
           "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.11-android-v1.7.0.1-r8/kino-core-x86_64.zip",
           "sha256": "e2763ad59cb44f154ee7dedac4e25d2d27cb6af350dfb9d502667916559569ce",
           "size_bytes": 5200046
-        }
-      ]
-    },
-    {
-      "id": "ironpress-pdf",
-      "name": "IronPress PDF renderer",
-      "version": "android-v1.7.0.1",
-      "description": "Native paged HTML-to-PDF renderer.",
-      "required_for": [
-        "html_to_pdf"
-      ],
-      "format": "jni-runtime-zip-v1",
-      "native_library": "libironpress_android.so",
-      "license": "MIT",
-      "min_android_api": 26,
-      "artifacts": [
-        {
-          "abi": "arm64-v8a",
-          "file_name": "ironpress-arm64-v8a.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.11-android-v1.7.0.1-r8/ironpress-arm64-v8a.zip",
-          "sha256": "b71be57f15f55bf937617c36340009f04897fc4521b0383912e8462e2bc2431d",
-          "size_bytes": 9235806
-        },
-        {
-          "abi": "armeabi-v7a",
-          "file_name": "ironpress-armeabi-v7a.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.11-android-v1.7.0.1-r8/ironpress-armeabi-v7a.zip",
-          "sha256": "fa65bbd7f8c6dcae92e1071e59dbca7180068c8b45a7023baa5b327708829896",
-          "size_bytes": 8579600
-        },
-        {
-          "abi": "x86",
-          "file_name": "ironpress-x86.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.11-android-v1.7.0.1-r8/ironpress-x86.zip",
-          "sha256": "bd94df37416437c4af97c21727abe1111f381fa40c528ec4c22be65e7fdb8bd3",
-          "size_bytes": 10357549
-        },
-        {
-          "abi": "x86_64",
-          "file_name": "ironpress-x86_64.zip",
-          "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.11-android-v1.7.0.1-r8/ironpress-x86_64.zip",
-          "sha256": "5a24b575f5b8b0984bca928009359b7c8036e6c035d533816eb6504ee2a0eedf",
-          "size_bytes": 9750613
         }
       ]
     }
