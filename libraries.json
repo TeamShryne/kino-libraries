@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": 9,
+  "catalog_version": 10,
   "generated_at": "2026-11-09T16:39:20.043164+00:00",
   "libraries": [
     {
@@ -45,6 +45,30 @@
           "download_url": "https://github.com/TeamShryne/kino-libraries/releases/download/runtime-v0.1.11-android-v1.7.0.1-r8/kino-core-x86_64.zip",
           "sha256": "e2763ad59cb44f154ee7dedac4e25d2d27cb6af350dfb9d502667916559569ce",
           "size_bytes": 5200046
+        }
+      ]
+    },
+    {
+      "id": "kino-office",
+      "name": "Kino Office",
+      "version": "v0.1.0",
+      "source_version": "v0.1.0",
+      "description": "Word, Excel, and PowerPoint file creation and editing support.",
+      "required_for": [
+        "office"
+      ],
+      "format": "gomobile-dex-runtime-zip-v1",
+      "classes_file": "classes.jar",
+      "native_library": "",
+      "license": "Apache-2.0",
+      "min_android_api": 26,
+      "artifacts": [
+        {
+          "abi": "universal",
+          "file_name": "kino-office-universal.zip",
+          "download_url": "https://github.com/TeamShryne/kino-office/releases/download/runtime-v0.1.0/kino-office-universal.zip",
+          "sha256": "c7a6bcb57770d664daf0e658933d92c7e51e322ac35a4d6bb7545706856fb102",
+          "size_bytes": 7634834
         }
       ]
     }
