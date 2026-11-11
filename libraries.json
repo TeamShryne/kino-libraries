@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": 12,
+  "catalog_version": 13,
   "generated_at": "2026-11-09T16:39:20.043164+00:00",
   "libraries": [
     {
@@ -51,8 +51,8 @@
     {
       "id": "kino-office",
       "name": "Kino Office",
-      "version": "v0.1.2",
-      "source_version": "v0.1.2",
+      "version": "v0.1.3",
+      "source_version": "v0.1.3",
       "description": "Word, Excel, and PowerPoint file creation and editing support.",
       "required_for": [
         "office"
@@ -66,8 +66,8 @@
         {
           "abi": "universal",
           "file_name": "kino-office-universal.zip",
-          "download_url": "https://github.com/TeamShryne/kino-office/releases/download/runtime-v0.1.2/kino-office-universal.zip",
-          "sha256": "0aa1cc1047a58568b0519f45992102ee53996ea3a0b0646d2fbc71cb1aeec537",
+          "download_url": "https://github.com/TeamShryne/kino-office/releases/download/runtime-v0.1.3/kino-office-universal.zip",
+          "sha256": "1fe74d8cf5c67e09cc068b1053c521f8c69b2ff7d5ff1e909fa750d872ba7592",
           "size_bytes": 7635565
         }
       ]
